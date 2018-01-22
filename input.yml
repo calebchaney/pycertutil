@@ -1,0 +1,53 @@
+---
+# - name: Carey Ltd CA
+#   DN: "CN=Carey Ltd CA"
+#   authorities:
+#     - DN: "CN=Carey Intermediate 1;O=Carey Ltd;C=US"
+#       nodes:
+#         - DN: "CN=kibana"
+#           SAN:
+#             - DNS: kibana.local
+#             - IP: 127.0.0.1
+#       authorities:
+#         - DN: "CN=Sub Intermediate 1"
+#         - DN: "CN=Sub Intermediate 2"
+
+- DN: "CN=Example Ltd CA"
+  authorities:
+    - DN: "CN=Example Intermediate CA"
+      nodes:
+          - DN: "CN=blah;OU=Support"
+            x509_extensions:
+              SubjectAlternativeName:
+                - x509.DNSName(u"localhost2")
+                - x509.DNSName(u"localhost3")
+                - x509.DNSName(u"localhost4")
+                - x509.IPAddress(IPv4Address('192.168.0.1'))
+              KeyUsage:
+                # digital_signature: False
+                # content_commitment: False
+                # key_encipherment: False
+                # data_encipherment: False
+                key_agreement: False
+                key_cert_sign: True
+                crl_sign: False
+                encipher_only: False
+                decipher_only: False
+              BasicConstraints:
+                ca: True
+              ExtendedKeyUsage:
+                - SERVER_AUTH
+                - CLIENT_AUTH
+                - CODE_SIGNING
+                - EMAIL_PROTECTION
+                - TIME_STAMPING
+                - OCSP_SIGNING
+                - ANY_EXTENDED_KEY_USAGE
+      # authorities:
+      #   - DN: "CN=Example Sub Intermediate 1"
+      #     sub-authorities:
+      #       - DN: "Subsub Inter 1"
+      #   - DN: "CN=Example Sub Intermediate 2"
+      #     nodes:
+      #       - DN: "CN=kibana"
+      #         san: "DNS:kibana.local,IP:127.0.0.1"
